@@ -28,8 +28,8 @@ public class Permutations {
             return result;
         }
 
-        for(int num : nums){
-            if(!currentList.contains(num)){
+        for(int num : nums){ //will always iterate over all possible members, 1, 2, 3
+            if(!currentList.contains(num)){ //we will only build more permuatations with ones not in current list.
                 List<Integer>  currentCopy = new ArrayList<>(currentList);
                 currentCopy.add(num);
                 List<List<Integer>> temp = recurse(nums, currentCopy);
