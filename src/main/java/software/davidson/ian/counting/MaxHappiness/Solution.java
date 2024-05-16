@@ -1,4 +1,4 @@
-package software.davidson.ian.MaxHappiness;
+package software.davidson.ian.counting.MaxHappiness;
 
 import java.util.Arrays;
 

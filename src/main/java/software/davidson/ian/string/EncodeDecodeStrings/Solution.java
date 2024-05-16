@@ -1,4 +1,4 @@
-package software.davidson.ian.EncodeDecodeStrings;
+package software.davidson.ian.string.EncodeDecodeStrings;
 
 import java.util.Arrays;
 import java.util.Collections;

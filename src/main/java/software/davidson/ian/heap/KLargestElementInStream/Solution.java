@@ -1,4 +1,4 @@
-package software.davidson.ian.KLargestElementInStream;
+package software.davidson.ian.heap.KLargestElementInStream;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;

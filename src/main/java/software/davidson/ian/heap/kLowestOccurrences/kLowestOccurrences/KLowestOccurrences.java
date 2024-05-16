@@ -1,4 +1,4 @@
-package software.davidson.ian.kLowestOccurrences;
+package software.davidson.ian.heap.kLowestOccurrences.kLowestOccurrences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
