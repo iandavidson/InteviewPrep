@@ -2,115 +2,117 @@ package software.davidson.ian.trie.PrefixTree.wordSearch2;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+import java.util.Set;
 
 @Slf4j
 public class WordSearch2 {
 
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         WordSearch2 wordSearch2 = new WordSearch2();
 
         char[][] board = new char[4][4];
-        board[0] = new char[]{'o','a','a','n'};
-        board[1] = new char[]{'e','t','a','e'};
-        board[2] = new char[]{'i','h','k','r'};
-        board[3] = new char[]{'i','f','l','v'}; //["i","f","l","v"]
-        String [] words = new String[]{"oath","pea","eat","rain"};
+        board[0] = new char[]{'o', 'a', 'a', 'n'};
+        board[1] = new char[]{'e', 't', 'a', 'e'};
+        board[2] = new char[]{'i', 'h', 'k', 'r'};
+        board[3] = new char[]{'i', 'f', 'l', 'v'}; //["i","f","l","v"]
+        String[] words = new String[]{"oath", "pea", "eat", "rain"};
         log.info("Answer1: {}", wordSearch2.findWords(board, words));
+
+        /*
+       [["a","b","c"]
+        ["a","e","d"],
+        ["a","f","g"]]
+
+        ["abcdefg","gfedcbaaa","eaabcdgfa","befa","dgc","ade"]
+        i got   ["abcdefg","befa","ade","gfedcbaaa"]
+        answer: ["abcdefg","befa","eaabcdgfa","gfedcbaaa"]
+         */
     }
 
-
-
-    private static final List<List<Integer>> SHIFT = List.of(List.of(0, 1), List.of(0, 1), List.of(-1, 0),
+    private static final List<List<Integer>> SHIFT = List.of(List.of(1, 0), List.of(0, 1), List.of(-1, 0),
             List.of(0, -1));
 
     public List<String> findWords(char[][] board, String[] words) {
+        List<String> validWords = new ArrayList<>();
+
+        boolean [] count = new boolean[26];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                count[board[i][j] - 'a'] = true;
+            }
+        }
+
+        for(String word : words){
+            boolean valid = true;
+            for(Character ch : word.toCharArray()){
+                if(count[ch - 'a'] == false){
+                    valid = false;
+                    break;
+                }
+            }
+            if(valid){
+                validWords.add(word);
+            }
+        }
+
         // Create root
         Trie root = new Trie();
 
-        // add all words to trie
-        for (String word : words) {
+        // add all valid words to trie
+        for(String word : validWords){
             root.add(word);
         }
 
-        List<String> foundWords = new ArrayList<>();
+        Set<String> foundWords = new HashSet<>();
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
-                for (String word : words) {
-                    if (board[i][j] == word.charAt(0) && bfsFoundWord(root, word, board, i, j)) {
-                        foundWords.add(word);
+                for(String word: validWords){
+                    if(foundWords.size() < validWords.size() && board[i][j] == word.charAt(0)){
+                        dfs(root, String.valueOf(board[i][j]), foundWords, board, i, j, word);
                     }
                 }
             }
         }
 
-        return foundWords;
+        return foundWords.stream().toList();
         // start from each cell and see if we get any hits, capture hits, return them
     }
 
-    private boolean bfsFoundWord(Trie trie, String word, char[][] board, int r, int c){
-        boolean[][] vis = new boolean[board.length][board[0].length];
-
-        Map<int[], String> coordMap = new HashMap<>();
-
-        Queue<int []> queue = new LinkedList<>();
-
-        //init start
-        coordMap.put(new int[]{r,c}, String.valueOf(board[r][c]));
-        vis[r][c] = true;
-        queue.add(new int[]{r,c});
-
-
-        while(!queue.isEmpty()){
-            int [] current = queue.remove();
-            int tempR = current[0];
-            int tempC = current[1];
-
-
-            String prefix = coordMap.get(new int[]{current[0],current[1]});
-
-            //todo: fix this, it is checking via reference rather than content of entries 0,1
-            if(trie.isMember(prefix)){
-                return true;
-            }
-
-            for(List<Integer> shift : SHIFT){
-                int newR = tempR + shift.get(0);
-                int newC = tempC + shift.get(1);
-
-                List<int []> neighbors = new ArrayList<>();
-                if(newR >= 0 && newR < board.length && newC >= 0 && newC < board[0].length){
-                    if(vis[newR][newC]){
-                        continue;
-                    }
-
-                    String tempPrefix = prefix + board[newR][newC];
-
-                    if(trie.isValidPrefix(tempPrefix)){
-                        //only coninute to operate if prefix is true with respect to word we are searching for
-                        coordMap.put(new int[]{newR, newC}, tempPrefix);
-                        vis[newR][newC] = true;
-                        queue.add(new int[]{newR, newC});
-                    }
-                }
-            }
-
-
-            /*
-                how do I keep track of the substring we are at given the coordinate
-                _> hash map {r,c} -> "subword"
-
-            */
+    private void dfs(Trie trie, String current, Set<String> res, char[][] board, int r, int c, String searchWord) {
+        // if (trie.isMember(current)) {
+        //     res.add(current);
+        //     // return;
+        if(current.equals(searchWord)){
+            res.add(current);
+            return;
+            // } else if (!trie.isValidPrefix(current)) {
+        } else if (!searchWord.startsWith(current)) {
+            return;
         }
 
-        return false;
+        char ch = board[r][c];
+        board[r][c] = '#';
+
+        for (List<Integer> shift : SHIFT) {
+            int newR = r + shift.get(0);
+            int newC = c + shift.get(1);
+
+            if (newR >= 0 && newR < board.length && newC >= 0 && newC < board[0].length) {
+
+                String currentSub = current + board[newR][newC];
+                if(trie.isValidPrefix(currentSub)){
+                    dfs(trie, currentSub, res, board, newR, newC, searchWord);
+                }
+            }
+        }
+
+        board[r][c] = ch;
     }
 
     class Trie {
@@ -123,13 +125,13 @@ public class WordSearch2 {
             this.children = new HashMap<Character, Trie>();
         }
 
-        public void add(String input){
-            if(input.isEmpty()){
+        public void add(String input) {
+            if (input.isEmpty()) {
                 this.validWord = true;
                 return;
             }
 
-            if(!children.containsKey(input.charAt(0))){
+            if (!children.containsKey(input.charAt(0))) {
                 Trie child = new Trie();
                 children.put(input.charAt(0), child);
             }
@@ -161,5 +163,6 @@ public class WordSearch2 {
             return false;
         }
     }
+
 
 }
