@@ -2,6 +2,7 @@ package software.davidson.ian.trie.PrefixTree.wordSearch2;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +41,8 @@ public class WordSearch2 {
     public List<String> findWords(char[][] board, String[] words) {
         List<String> validWords = new ArrayList<>();
 
+
+        //try to remove values that we know cannot be found
         boolean [] count = new boolean[26];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
