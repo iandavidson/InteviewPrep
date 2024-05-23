@@ -28,7 +28,6 @@ public class Subsets2 {
     }
 
     private void recurse(int[] nums, int index, List<Integer> list, List<List<Integer>> res) {
-
         if (index >= nums.length) {
             res.add(list);
             return;
@@ -40,7 +39,7 @@ public class Subsets2 {
         recurse(nums, index + 1, first, res);
 
         //2 by pass all instances of element at index
-        List<Integer> second = new ArrayList<>(list);;
+        List<Integer> second = new ArrayList<>(list);
         int i = index;
         while (i < nums.length && nums[i] == nums[index]) {
             i++;
