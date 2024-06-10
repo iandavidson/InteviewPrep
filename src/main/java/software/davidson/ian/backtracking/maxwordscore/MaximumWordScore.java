@@ -1,4 +1,4 @@
-package software.davidson.ian.backtracking.MaxWordScore;
+package software.davidson.ian.backtracking.maxwordscore;
 
 import lombok.extern.slf4j.Slf4j;
 

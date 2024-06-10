@@ -1,4 +1,4 @@
-package software.davidson.ian.trie.PrefixTree.WordBreak2;
+package software.davidson.ian.trie.WordBreak2;
 
 import lombok.extern.slf4j.Slf4j;
 

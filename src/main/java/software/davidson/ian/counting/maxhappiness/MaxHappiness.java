@@ -1,14 +1,14 @@
-package software.davidson.ian.counting.MaxHappiness;
+package software.davidson.ian.counting.maxhappiness;
 
 import java.util.Arrays;
 
-public class Solution {
+public class MaxHappiness {
 
     public static void main(String []  args){
-        Solution solution = new Solution();
-        System.out.println(solution.maximumHappinessSum(new int[]{2,3,4,5}, 1));
+        MaxHappiness maxHappiness = new MaxHappiness();
+        System.out.println(maxHappiness.maximumHappinessSum(new int[]{2,3,4,5}, 1));
 
-        System.out.println(solution.maximumHappinessSum(new int[]{12,1,42}, 3));
+        System.out.println(maxHappiness.maximumHappinessSum(new int[]{12,1,42}, 3));
     }
 
 

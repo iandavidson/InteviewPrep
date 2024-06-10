@@ -1,4 +1,4 @@
-package software.davidson.ian.binarySearch.simple;
+package software.davidson.ian.binarysearch.simple;
 
 class Solution {
 

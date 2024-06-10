@@ -1,4 +1,4 @@
-package software.davidson.ian.graph.safestPath;
+package software.davidson.ian.graph.safestpath;
 
 import java.util.ArrayList;
 import java.util.Arrays;

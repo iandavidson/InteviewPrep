@@ -1,4 +1,4 @@
-package software.davidson.ian.stack.ReversePolishNotation;
+package software.davidson.ian.stack;
 
 import lombok.extern.slf4j.Slf4j;
 

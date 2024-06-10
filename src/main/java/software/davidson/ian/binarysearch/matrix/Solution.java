@@ -1,4 +1,4 @@
-package software.davidson.ian.binarySearch.matrix;
+package software.davidson.ian.binarysearch.matrix;
 
 public class Solution {
     public static void main(String [] args){

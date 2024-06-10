@@ -1,4 +1,4 @@
-package software.davidson.ian.trie.PrefixTree.wordSearch2;
+package software.davidson.ian.trie.wordSearch2;
 
 import lombok.extern.slf4j.Slf4j;
 

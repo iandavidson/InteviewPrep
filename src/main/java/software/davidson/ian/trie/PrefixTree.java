@@ -1,4 +1,4 @@
-package software.davidson.ian.trie.PrefixTree;
+package software.davidson.ian.trie;
 
 import java.util.HashMap;
 import java.util.Map;
